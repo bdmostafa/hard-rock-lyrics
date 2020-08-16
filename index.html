@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+        integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+        crossorigin="anonymous" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Custom css -->
@@ -57,11 +61,21 @@
                 <!-- single result -->
                 <div class="single-result row align-items-center my-3 p-3">
                     <div class="col-md-9">
-                        <h3 class="lyrics-name">Purple Noon</h3>
-                        <p class="author lead">Album by <span>Washed Out</span></p>
+                        <h3 id="song-title">Hashte Dekho <img id="album-cover-img" src="images/album-cover.jpg" alt="">
+                        </h3>
+                        <p id="album-title">Ayub Bacchu Vol. 1 (LRB) by <span id="artist-name"> <a id="artist-link"
+                                    href="#" target="_blank"> Artist <img id="artist-picture"
+                                        src="images/artist-pic.jpg" alt=""></a></span>
+                        </p>
+                        <p id="duration"><i class="fas fa-hourglass-half" aria-hidden="true"></i>
+                            Duration:
+                            30s
+                            <span id="preview"><i class="fas fa-music" aria-hidden="true"></i> <a id="" href="#"
+                                    target="_blank"> Listen
+                                    Now</a></span></p>
                     </div>
-                    <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
+                    <div class="col-md-3 ">
+                        <button id="button" class="btn btn-success">Get Lyrics</button>
                     </div>
                 </div>
 
