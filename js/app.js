@@ -1,4 +1,4 @@
-// Handle Lyrics part backend =======================================
+// Handle backend part of Lyrics Search app =======================================
 class Song {
     constructor() {
         this.apiSong = 'https://api.lyrics.ovh/suggest/';
@@ -60,19 +60,20 @@ class Song {
     async getLyrics(artist, title) {
         const fetchedLyrics = await fetch(`${this.apiLyrics}${artist}/${title}`);
         const data = await fetchedLyrics.json();
-        console.log(data.lyrics);
-
+        // console.log(data.lyrics);
+        return {
+            song_lyrics: data
+        }
     }
-
-
 }
 
-// Handle UI part of Lyrics app =================================
+// Handle Frontend/UI section part of Lyrics Search app =================================
 class UI {
     constructor() {
         // All the selectors
         this.displayTitle = document.getElementById('display-title');
         this.displayCard = document.getElementById('display-card');
+        this.displayLyrics = document.getElementById('display-lyrics')
         this.songTitle = document.getElementById('song-title');
         this.albumCover = document.getElementById('album-cover-img');
         this.albumTitle = document.getElementById('album-title');
@@ -93,13 +94,13 @@ class UI {
         song_title.forEach(title => {
             titles.push += `<p>${title}</P>`
         })
-        console.log(titles);
+        // console.log(titles);
         this.displayTitle.innerHTML = `${titles}`;
-        console.log(this.displayTitle)
+        // console.log(this.displayTitle)
     }
 
-    // Frontend/UI section - all the data passing here through DOM
-    paint({
+    //  All the song data passing here and display through DOM
+    showSongInfo({
         // Object destructuring - receiving as parameter from shortedData argument
         song_title,
         album_title,
@@ -108,14 +109,13 @@ class UI {
         artist_profile,
         artist_pic,
         song_duration,
-        song_listen,
-        song_lyrics
+        song_listen
     }) {
-
+        // console.log(this.displayCard);
         this.displayCard.innerHTML = '';
 
         for (let i = 0; i < 10; i++) {
-
+            // HTML template for displayCard
             this.displayCard.innerHTML += `
                 <div class="single-result row align-items-center my-3 p-3">
                     <div class="col-md-9">
@@ -128,17 +128,24 @@ class UI {
                         <span id="preview"><i class="fas fa-music" aria-hidden="true"></i> <a id="" href="${song_listen[i]}" target="_blank"> Listen Now</a></span></p>
                     </div>
                     <div class="col-md-3 ">
-                        <button id="get-lyrics" class="btn btn-success">Get Lyrics</button>
+                        <button class="btn btn-success get-lyrics">Get Lyrics</button>
                     </div>
                  </div>
                 `
         }
-
-
-        //         console.log(this.displayCard)
-
     }
 
+    // Display lyrics of a specific song
+    showLyrics(title, lyrics) {
+        // console.log(title, lyrics.lyrics);
+
+        // Display lyrics when available or display not found
+        this.displayLyrics.innerHTML = `
+                                    <button class="btn go-back">&lsaquo;</button>
+                                    <h2 class="text-success mb-4">${title}</h2>
+                                    <pre class="lyric text-white">${lyrics.lyrics || lyrics.error}</pre>
+                                `
+    }
 }
 
 
@@ -170,7 +177,7 @@ document.getElementById('search-input').addEventListener('keyup', (e) => {
 
             // Send this shortedData object to the UI section to connect with DOM and display
             document.getElementById('search').addEventListener('click', () => {
-                ui.paint(shortedData);
+                ui.showSongInfo(shortedData);
             })
         })
 })
@@ -178,12 +185,21 @@ document.getElementById('search-input').addEventListener('keyup', (e) => {
 
 
 
+// Event delegation
+document.getElementById('display-card').addEventListener('click', (e) => {
+    // console.log(e.target.innerText);
+    if (e.target.innerText === 'Get Lyrics') {
+        const artistName = e.target.parentElement.previousElementSibling.children[1].children[0].innerText;
+        const songTitle = e.target.parentElement.previousElementSibling.children[0].innerText;
+        // console.log(artistName, songTitle);
 
-document.getElementById('get-lyrics').addEventListener('click', (e) => {
-    // console.log(e.target);
-    const artistName = e.target.parentElement.previousElementSibling.children[1].children[0].innerText;
-    const songTitle = e.target.parentElement.previousElementSibling.children[0].innerText;
+        // Get Lyrics of a specific song
+        song.getLyrics(artistName, songTitle)
+            .then(data => {
+                // console.log(data.song_lyrics);
+                // Send lyrics data to UI section to connect with DOM
+                ui.showLyrics(songTitle, data.song_lyrics);
+            });
+    }
 
-    // Get Lyrics of a specific song
-    song.getLyrics();
 })
