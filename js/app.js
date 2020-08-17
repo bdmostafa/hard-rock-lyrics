@@ -30,7 +30,7 @@ class Song {
         const artistPic = [];
         const duration = [];
         const listen = [];
-        const lyrics = [];
+        // const lyrics = [];
         data.forEach(data => {
             // console.log(data)
             title.push(data.title);
@@ -41,7 +41,7 @@ class Song {
             artistPic.push(data.artist.picture);
             duration.push(`${data.duration/1000}s`);
             listen.push(data.preview);
-            lyrics.push(data.lyrics);
+            // lyrics.push(data.lyrics);
         })
         // Return the shorted data as an object
         return {
@@ -52,8 +52,8 @@ class Song {
             artist_profile: artistProfile,
             artist_pic: artistPic,
             song_duration: duration,
-            song_listen: listen,
-            song_lyrics: lyrics
+            song_listen: listen
+            // song_lyrics: lyrics
         }
     }
     // Search lyrics depending on specific artist and title
@@ -72,6 +72,7 @@ class UI {
     constructor() {
         // All the selectors
         this.displayTitle = document.getElementById('display-title');
+        this.displayCard = document.getElementById('display-card');
         this.songTitle = document.getElementById('song-title');
         this.albumCover = document.getElementById('album-cover-img');
         this.albumTitle = document.getElementById('album-title');
@@ -85,6 +86,7 @@ class UI {
 
     // Display only song title on keyup event
     generateTitle({
+        // Object destructuring - receiving song_title as parameter from shortedData argument
         song_title
     }) {
         const titles = [];
@@ -109,8 +111,32 @@ class UI {
         song_listen,
         song_lyrics
     }) {
-        // this.songTitle.textContent = song_title;
-        // console.log(song_title.length)
+
+        this.displayCard.innerHTML = '';
+
+        for (let i = 0; i < 10; i++) {
+
+            this.displayCard.innerHTML += `
+                <div class="single-result row align-items-center my-3 p-3">
+                    <div class="col-md-9">
+                        <h3 id="song-title">${song_title[i]}<img id="album-cover-img" src="${album_cover[i]}" alt="">
+                        </h3>
+                        <p id="album-title">${album_title[i]} by <span id="artist-name"> <a id="artist-link"
+                        href="${artist_profile[i]}" target="_blank"> ${artist_name[i]} <img id="artist-picture" src="${artist_pic[i]}" alt=""></a></span>
+                        </p>
+                        <p id="duration"><i class="fas fa-hourglass-half" aria-hidden="true"></i> Duration: ${song_duration[i]}
+                        <span id="preview"><i class="fas fa-music" aria-hidden="true"></i> <a id="" href="${song_listen[i]}" target="_blank"> Listen Now</a></span></p>
+                    </div>
+                    <div class="col-md-3 ">
+                        <button id="get-lyrics" class="btn btn-success">Get Lyrics</button>
+                    </div>
+                 </div>
+                `
+        }
+
+
+        //         console.log(this.displayCard)
+
     }
 
 }
