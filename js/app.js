@@ -5,13 +5,6 @@ class Song {
         this.apiLyrics = 'https://api.lyrics.ovh/v1/';
 
     }
-    // Search lyrics depending on specific artist and title
-    async getLyrics(artist, title) {
-        const fetchedLyrics = await fetch(`${this.apiLyrics}${artist}/${title}`);
-        const data = await fetchedLyrics.json();
-        console.log(data.lyrics);
-
-    }
     // Search song data with all the properties, values
     async searchSong(searchText) {
         const fetchedData = await fetch(`${this.apiSong}${searchText}`);
@@ -63,6 +56,13 @@ class Song {
             song_lyrics: lyrics
         }
     }
+    // Search lyrics depending on specific artist and title
+    async getLyrics(artist, title) {
+        const fetchedLyrics = await fetch(`${this.apiLyrics}${artist}/${title}`);
+        const data = await fetchedLyrics.json();
+        console.log(data.lyrics);
+
+    }
 
 
 }
@@ -71,6 +71,7 @@ class Song {
 class UI {
     constructor() {
         // All the selectors
+        this.displayTitle = document.getElementById('display-title');
         this.songTitle = document.getElementById('song-title');
         this.albumCover = document.getElementById('album-cover-img');
         this.albumTitle = document.getElementById('album-title');
@@ -81,6 +82,20 @@ class UI {
         this.songListen = document.getElementById('preview');
         this.songLyrics = document.getElementById('get-lyrics');
     }
+
+    // Display only song title on keyup event
+    generateTitle({
+        song_title
+    }) {
+        const titles = [];
+        song_title.forEach(title => {
+            titles.push += `<p>${title}</P>`
+        })
+        console.log(titles);
+        this.displayTitle.innerHTML = `${titles}`;
+        console.log(this.displayTitle)
+    }
+
     // Frontend/UI section - all the data passing here through DOM
     paint({
         // Object destructuring - receiving as parameter from shortedData argument
@@ -97,6 +112,7 @@ class UI {
         // this.songTitle.textContent = song_title;
         // console.log(song_title.length)
     }
+
 }
 
 
@@ -122,10 +138,20 @@ document.getElementById('search-input').addEventListener('keyup', (e) => {
             // Short the data as requirement/needed
             const shortedData = song.getShortedData(data)
             // console.log(shortedData);
-            // Send this shortedData to the UI section to connect with DOM and display
-            ui.paint(shortedData);
+
+            // Send shortedData object to display only song title on keyup event
+            ui.generateTitle(shortedData);
+
+            // Send this shortedData object to the UI section to connect with DOM and display
+            document.getElementById('search').addEventListener('click', () => {
+                ui.paint(shortedData);
+            })
         })
 })
+
+
+
+
 
 document.getElementById('get-lyrics').addEventListener('click', (e) => {
     // console.log(e.target);
