@@ -39,7 +39,7 @@ class Song {
             artistName.push(data.artist.name);
             artistProfile.push(data.artist.link);
             artistPic.push(data.artist.picture);
-            duration.push(`${data.duration/1000}s`);
+            duration.push(`${(data.duration/60).toFixed(2)}m`);
             listen.push(data.preview);
             // lyrics.push(data.lyrics);
         })
@@ -139,6 +139,7 @@ class UI {
     showLyrics(title, lyrics) {
         // console.log(title, lyrics.lyrics);
 
+        this.displayLyrics.innerHTML = '';
         // Display lyrics when available or display not found
         this.displayLyrics.innerHTML = `
                                     <button class="btn go-back">&lsaquo;</button>
@@ -187,7 +188,6 @@ document.getElementById('search-input').addEventListener('keyup', (e) => {
 
 // Event delegation
 document.getElementById('display-card').addEventListener('click', (e) => {
-    // console.log(e.target.innerText);
     if (e.target.innerText === 'Get Lyrics') {
         const artistName = e.target.parentElement.previousElementSibling.children[1].children[0].innerText;
         const songTitle = e.target.parentElement.previousElementSibling.children[0].innerText;
@@ -199,7 +199,11 @@ document.getElementById('display-card').addEventListener('click', (e) => {
                 // console.log(data.song_lyrics);
                 // Send lyrics data to UI section to connect with DOM
                 ui.showLyrics(songTitle, data.song_lyrics);
+                // document.getElementById('display-card').insertBefore(document.getElementById('display-lyrics'), )
+
+                const lyricsElement = e.target.parentElement.parentElement.parentElement.nextElementSibling;
+                document.querySelector('.content-area').insertBefore(lyricsElement, document.getElementById('display-card'))
+                console.log(e.target.parentElement.parentElement.parentElement.nextElementSibling);
             });
     }
-
 })
