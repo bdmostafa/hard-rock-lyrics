@@ -35,6 +35,7 @@ class UI {
         this.displayTitle.innerHTML = '';
         this.displayCard.innerHTML = '';
 
+        // Assigning the values through looping
         for (let i = 0; i < song_title.length; i++) {
             // HTML template for displayCard
             this.displayCard.innerHTML += `
@@ -67,7 +68,6 @@ class UI {
                 <h2 class="text-success mb-4">${title}</h2>
                 <pre class="lyric text-white">${lyrics.lyrics || lyrics.error}</pre>
             `
-
     };
 
     // Show alert dynamically

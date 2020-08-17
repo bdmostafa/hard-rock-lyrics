@@ -32,7 +32,6 @@ document.getElementById('search').addEventListener('click', (e) => {
     } else {
         ui.showAlert('Please enter a song name', 'dark');
     }
-
 })
 
 
@@ -47,12 +46,9 @@ document.getElementById('display-card').addEventListener('click', (e) => {
         song.getLyrics(artistName, songTitle)
             .then(data => {
                 // console.log(data.song_lyrics);
+
                 // Send lyrics data to UI section to connect with DOM
                 ui.showLyrics(songTitle, data.song_lyrics);
-
-                // const lyricsElement = e.target.parentElement.parentElement.parentElement.nextElementSibling;
-                // document.querySelector('.content-area').insertBefore(lyricsElement, document.getElementById('display-card'))
-                // console.log(e.target.parentElement.parentElement.parentElement.nextElementSibling);
             });
     }
 })

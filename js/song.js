@@ -5,6 +5,7 @@ class Song {
         this.apiLyrics = 'https://api.lyrics.ovh/v1/';
 
     }
+
     // Search song data with all the properties, values
     async searchSong(searchText) {
         try {
@@ -25,6 +26,7 @@ class Song {
             console.log(err);
         }
     }
+
     // Minimize the data from the whole response data
     getMinimizedData(data) {
         // Initialization
@@ -36,6 +38,7 @@ class Song {
         const artistPic = [];
         const duration = [];
         const listen = [];
+
         // Collecting all the necessary data
         data.forEach(data => {
             // console.log(data)
@@ -48,6 +51,7 @@ class Song {
             duration.push(`${(data.duration/60).toFixed(2)}m`);
             listen.push(data.preview);
         })
+
         // Return the shorted data as an object
         return {
             song_title: title,
@@ -60,6 +64,7 @@ class Song {
             song_listen: listen
         }
     }
+
     // Search lyrics depending on specific artist and title
     async getLyrics(artist, title) {
         try {
